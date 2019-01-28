@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div>
     <form @submit.prevent="add()">
       <div class="form-group">

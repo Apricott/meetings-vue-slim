@@ -9,7 +9,7 @@
       <div>
         <div v-if="people.length > 0">
           <h2>The people already signed in:</h2>
-          <participants-list :list="people"></participants-list>
+          <participants-list :list="people" @removed="removeNewParticipant($event)"></participants-list>
         </div>
         <em v-else>Sorry, nobody is here :-(</em>
       </div>
@@ -26,25 +26,32 @@
 </template>
 
 <script>
-  import ParticipantsList from "./ParticipantsList.vue";
-  import NewParticipantForm from "./NewParticipantForm.vue";
-
-  export default {
-    components: {ParticipantsList, NewParticipantForm},
-    data() {
-      return {
-        people: []
-      };
+    import ParticipantsList from "./ParticipantsList.vue";
+    import NewParticipantForm from "./NewParticipantForm.vue";
+    export default {
+        components: {ParticipantsList, NewParticipantForm},
+        data() {
+            return {
+                people: []
+            };
+        },
+        mounted() {
+            this.$http.get('participants').then(response => {
+                this.people = response.body;
+            });
+        },
+        methods: {
+            addNewParticipant(participant) {
+                this.$http.post('participants', participant).then(response => {
+                    this.people.push(response.body);
+                });
+            },
+            removeNewParticipant(id) {
+                this.$http.delete('participants/'+id ).then(response => {
+                    const personIndex = this.people.findIndex(person => person.id == id)
+                    this.people.splice(personIndex, 1)
+            });
+        }
     },
-    methods: {
-      addNewParticipant(participant) {
-        this.people.push(participant);
-      }
-    },
-    mounted() {
-      this.$http.get('participants').then(response => {
-        this.people = response.body;
-      });
     }
-  };
 </script>

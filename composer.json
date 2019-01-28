@@ -1,4 +1,4 @@
-php -S localhost:8000 test.php
+
 {
     "name": "wojciech/meetings-vue-slim",
     "authors": [

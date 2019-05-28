@@ -4,8 +4,7 @@
       <li v-for="person in list" class="list-group-item">
         {{ person.firstname }}
         {{ person.lastname }}
-        {{ person.id }}
-        <button class="btn btn-danger" @click="remove(person.id)">Remove participant</button>
+        <button class="btn btn-danger" style="float: right;" @click="remove(person.id)">Remove participant</button>
       </li>
     </ol>
   </div>
@@ -18,7 +17,6 @@
   methods:{
       remove(id) {
           this.$emit('removed', id);
-
       },
   }
   }
